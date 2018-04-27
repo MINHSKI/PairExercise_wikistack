@@ -13,19 +13,28 @@ const PORT = 8080;
 
 const app = express();
 
-const db = require('./models');
+const { db } = require('./models');
 db.authenticate().
 then(() => {
   console.log('connected to the database');
 });
 
 // const init = async () => {
-//   await models.db.sync();
+//   await db.sync
 //   app.listen(PORT, () => {
 //     console.log(`App listening in port ${PORT}`);
 //   });
 // };
-// init();
+
+const init = async () => {
+  await db.User.sync();
+  await db.Page.sync();
+  app.listen(PORT, () => {
+    console.log(`App listening in port ${PORT}`);
+  });
+};
+
+init();
 
 app.use(bodyparser.urlencoded({ extended: false}));
 app.use(bodyparser.json());
