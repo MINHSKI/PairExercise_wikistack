@@ -9,7 +9,10 @@ const main = require('./views/main');
 const userList = require('./views/userList');
 const userPages = require('./views/userPages');
 const wikipage = require('./views/wikipage');
+const userRouter = require('./routes/user');
+const wikiRouter = require('./routes/wiki');
 const PORT = 8080;
+
 
 const app = express();
 
@@ -19,24 +22,8 @@ then(() => {
   console.log('connected to the database');
 });
 
-// const init = async () => {
-  // try{
-  //   await db.sync
-  // } catch (error){next(error)};
-//   app.listen(PORT, () => {
-//     console.log(`App listening in port ${PORT}`);
-//   });
-// };
-
 const init = async () => {
-  await db.User.sync();
-  await db.Page.sync();
-// try{
-//     await db.User.sync();
-//     await db.Page.sync();
-//   } catch (error) {
-//     console.error('DB Sync problem');
-//   }
+  await db.sync();
   app.listen(PORT, () => {
     console.log(`App listening in port ${PORT}`);
   });
@@ -49,11 +36,8 @@ app.use(bodyparser.json());
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
-
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 app.get('/', (req, res) => {
   res.send(layout("Hello World from all of us"));
 });
-
-  app.listen(PORT, () => {
-    console.log(`App listening in port ${PORT}`);
-  });
