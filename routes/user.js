@@ -1,18 +1,32 @@
 const express = require('express');
 const router = express.Router();
+const userList = require('../views/userList');
 
 
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  let data = null;
+  try {
+    const baseQuery = "SELECT users.* FROM users\n";
+
+    data = await client.query(baseQuery);
+    res.send(userList(data.rows));
+  } catch (error) { next(error) };
+});
+
+router.get('/#id', (req, res, next) => {
+  res.send('got to get /wiki');
+});
+// 
+router.post('/', (req, res, next) => {
   res.send('got to get /wiki');
 });
 
-
-router.post('/', (req, res, next) => {
-  res.send('got to post /wiki');
+router.put('/#id', (req, res, next) => {
+  res.send('got to get /wiki');
 });
 
-router.get('/add', (req, res, next) => {
-  res.send('got to get /wiki/add');
+router.delete('/id', (req, res, next) => {
+  res.send('got to get /wiki');
 });
 
 module.exports = router;

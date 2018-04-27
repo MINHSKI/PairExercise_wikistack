@@ -37,7 +37,7 @@ app.use(bodyparser.json());
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 app.use('/wiki', wikiRouter);
-app.use('/user', userRouter);
+app.use('/users', userRouter);
 app.get('/', (req, res) => {
   res.send(layout("Hello World from all of us"));
 });
