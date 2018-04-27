@@ -9,7 +9,10 @@ const main = require('./views/main');
 const userList = require('./views/userList');
 const userPages = require('./views/userPages');
 const wikipage = require('./views/wikipage');
-const PORT = 8080;
+const userRouter = require('./routes/user');
+const wikiRouter = require('./routes/wiki');
+const PORT = 1337;
+
 
 const app = express();
 
@@ -27,8 +30,9 @@ then(() => {
 // };
 
 const init = async () => {
-  await db.User.sync();
-  await db.Page.sync();
+  // await db.User.sync();
+  // await db.Page.sync();
+  await db.sync({force: true});
   app.listen(PORT, () => {
     console.log(`App listening in port ${PORT}`);
   });
@@ -41,7 +45,8 @@ app.use(bodyparser.json());
 
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
-
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 app.get('/', (req, res) => {
   res.send(layout("Hello World from all of us"));
 });
