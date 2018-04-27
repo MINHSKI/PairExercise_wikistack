@@ -20,7 +20,9 @@ then(() => {
 });
 
 // const init = async () => {
-//   await db.sync
+  // try{
+  //   await db.sync
+  // } catch (error){next(error)};
 //   app.listen(PORT, () => {
 //     console.log(`App listening in port ${PORT}`);
 //   });
@@ -29,6 +31,12 @@ then(() => {
 const init = async () => {
   await db.User.sync();
   await db.Page.sync();
+// try{
+//     await db.User.sync();
+//     await db.Page.sync();
+//   } catch (error) {
+//     console.error('DB Sync problem');
+//   }
   app.listen(PORT, () => {
     console.log(`App listening in port ${PORT}`);
   });
